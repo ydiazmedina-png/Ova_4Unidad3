@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OVA: Diagonalización y Matrices Simétricas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>
+      MathJax = {
+        tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+        options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+</head>
+<body class="bg-slate-50">
+<div class="flex min-h-screen">
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-white shadow-lg flex-shrink-0 hidden md:flex md:flex-col">
+        <div class="p-4">
+            <div style="width:150px;height:150px;" class="p-2 mx-auto flex items-center justify-center bg-white rounded-full shadow-lg border-2 border-green-500 hover:shadow-green-400 transition-shadow duration-300">
+                <img src="img/logo.webp" alt="Logo" class="w-5/6 h-5/6 object-contain" loading="lazy"
+                     onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'text-green-700 font-bold text-center text-xs p-2 block\'>Universidad de Córdoba</span>'">
+            </div>
+        </div>
+        <nav class="mt-6 flex-1">
+            <a href="#" class="sidebar-link active flex items-center py-3 px-6 font-medium text-slate-700" data-target="introduccion"><span class="mr-3 text-xl">🚀</span> Introducción</a>
+            <a href="#" class="sidebar-link flex items-center py-3 px-6 font-medium text-slate-700" data-target="objetivos"><span class="mr-3 text-xl">🎯</span> Objetivos</a>
+            <a href="#" class="sidebar-link flex items-center py-3 px-6 font-medium text-slate-700" data-target="contenido"><span class="mr-3 text-xl">📚</span> Contenido</a>
+            <a href="#" class="sidebar-link flex items-center py-3 px-6 font-medium text-slate-700" data-target="actividades"><span class="mr-3 text-xl">✍️</span> Actividades</a>
+            <a href="#" class="sidebar-link flex items-center py-3 px-6 font-medium text-slate-700" data-target="evaluacion"><span class="mr-3 text-xl">✔️</span> Evaluación</a>
+            <a href="#" class="sidebar-link flex items-center py-3 px-6 font-medium text-slate-700" data-target="recursos"><span class="mr-3 text-xl">📖</span> Recursos</a>
+            <a href="#" class="sidebar-link flex items-center py-3 px-6 font-medium text-slate-700" data-target="bibliografia"><span class="mr-3 text-xl">📚</span> Bibliografía</a>
+        </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="flex-1 p-4 sm:p-6 md:p-10 bg-gray-50">
+
+        <!-- Mobile header -->
+        <div class="md:hidden mb-6 flex flex-col items-center">
+            <div style="width:100px;height:100px;" class="p-2 flex items-center justify-center bg-white rounded-full shadow-lg hover:shadow-green-400 transition-shadow duration-300 mb-2">
+                <img src="img/logo.webp" alt="Logo" class="w-5/6 h-5/6 object-contain" loading="lazy"
+                     onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'text-green-700 font-bold text-xs\'>UNICOR</span>'">
+            </div>
+            <select id="mobile-nav" class="w-full mt-2 p-2 border rounded-md bg-white shadow-sm">
+                <option value="introduccion">🚀 Introducción</option>
+                <option value="objetivos">🎯 Objetivos</option>
+                <option value="contenido">📚 Contenido</option>
+                <option value="actividades">✍️ Actividades</option>
+                <option value="evaluacion">✔️ Evaluación</option>
+                <option value="recursos">📖 Recursos</option>
+                <option value="bibliografia">📚 Bibliografía</option>
+            </select>
+        </div>
+
+        <!-- ══════════════ INTRODUCCIÓN ══════════════ -->
+        <div id="introduccion" class="content-pane active">
+            <h2 class="text-2xl sm:text-3xl font-bold text-green-800 mb-5 border-b border-slate-200 pb-4">Diagonalización y Matrices Simétricas</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                La diagonalización es uno de los resultados más poderosos del álgebra lineal. Cuando una matriz \(A\) puede diagonalizarse, es posible expresarla en una forma mucho más simple que facilita enormemente los cálculos: potencias de matrices, solución de sistemas de ecuaciones diferenciales y análisis de transformaciones lineales se vuelven computacionalmente manejables.
+            </p>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                En ingeniería de sistemas, la diagonalización aparece de forma natural en el análisis de sistemas dinámicos lineales, donde los valores propios determinan la estabilidad del sistema. En machine learning, la descomposición espectral de matrices simétricas es la base del <strong>Análisis de Componentes Principales (PCA)</strong>, utilizado para reducir la dimensionalidad de conjuntos de datos masivos.
+            </p>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Esta unidad estudia las condiciones de diagonalización, el proceso para construir la factorización \(A = PDP^{-1}\) y las propiedades especiales de las matrices simétricas, que siempre son diagonalizables mediante una base ortonormal de vectores propios.
+            </p>
+
+            <div class="mt-4 p-4 bg-green-50 border-l-4 border-green-500 rounded-r-lg">
+                <p class="text-green-800">🎯 <strong>Relevancia para ingeniería de sistemas:</strong> la diagonalización es la base computacional del análisis de estabilidad de sistemas dinámicos, de PCA en machine learning, y de la compresión y el análisis espectral de grafos y redes.</p>
+            </div>
+
+            <!-- Síntesis de voz -->
+            <div class="speech-controls p-3 bg-green-100 rounded-lg flex items-center flex-wrap gap-2 mt-4" data-target="introduccion">
+                <button class="play-btn bg-green-600 hover:bg-green-700 text-white font-medium py-1 px-4 rounded-full flex items-center"><span class="mr-1">▶️</span> Leer</button>
+                <button class="pause-btn bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-1 px-4 rounded-full flex items-center" disabled><span class="mr-1">⏸️</span> Pausar</button>
+                <button class="stop-btn bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-4 rounded-full flex items-center" disabled><span class="mr-1">⏹️</span> Detener</button>
+                <div class="flex items-center ml-2">
+                    <label for="sr-intro" class="text-sm text-green-800 mr-2">Velocidad:</label>
+                    <input type="range" class="speech-rate" id="sr-intro" min="0.5" max="2" step="0.1" value="1">
+                </div>
+            </div>
+
+            <!-- VIDEO + DIAGRAMA -->
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div class="bg-white rounded-xl shadow-md p-4 border border-green-200">
+                    <h3 class="text-base font-bold text-green-700 mb-3 text-center"> Video de un ejercicio</h3>
+                    <div class="ratio-16x9 rounded-lg overflow-hidden video-embed">
+                       <iframe
+                            src="https://www.youtube.com/embed/zFQDoVD7ezs"
+                            title="Diagonalización y matrices simétricas"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                            style="position:absolute;top:0;left:0;width:100%;height:100%;">
+                        </iframe>
+                    </div>
+                    <p class="text-center text-xs text-slate-500 mt-3"><em>Diagonalizar ortogonalmente una matriz — Ejercicio resuelto</em></p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md p-4 border border-green-200 flex flex-col">
+                    <h3 class="text-base font-bold text-green-700 mb-3 text-center">Mapa conceptual del tema</h3>
+                    <div class="flex-1 flex items-center justify-center">
+                        <svg viewBox="0 0 360 280" class="w-full max-w-md">
+                            <rect x="0" y="0" width="360" height="280" fill="#f8fafc" rx="10"/>
+                            <!-- Nodo raíz -->
+                            <rect x="125" y="15" width="110" height="36" rx="8" fill="#475569"/>
+                            <text x="180" y="38" font-size="12" font-weight="bold" fill="white" font-family="Poppins,sans-serif" text-anchor="middle">Matriz A (n×n)</text>
+                            <!-- Ramas hacia valores y vectores -->
+                            <line x1="155" y1="51" x2="90" y2="75" stroke="#94a3b8" stroke-width="1.5"/>
+                            <line x1="205" y1="51" x2="270" y2="75" stroke="#94a3b8" stroke-width="1.5"/>
+                            <rect x="30" y="75" width="120" height="34" rx="7" fill="#1d4ed8"/>
+                            <text x="90" y="96" font-size="11" font-weight="bold" fill="white" font-family="Poppins,sans-serif" text-anchor="middle">n vectores L.I.</text>
+                            <rect x="210" y="75" width="120" height="34" rx="7" fill="#1d4ed8"/>
+                            <text x="270" y="96" font-size="11" font-weight="bold" fill="white" font-family="Poppins,sans-serif" text-anchor="middle">A = Aᵀ (simétrica)</text>
+                            <!-- Ramas hacia diagonalización -->
+                            <line x1="90" y1="109" x2="90" y2="135" stroke="#94a3b8" stroke-width="1.5"/>
+                            <line x1="270" y1="109" x2="270" y2="135" stroke="#94a3b8" stroke-width="1.5"/>
+                            <rect x="20" y="135" width="140" height="44" rx="8" fill="#15803d"/>
+                            <text x="90" y="154" font-size="12" font-weight="bold" fill="white" font-family="Poppins,sans-serif" text-anchor="middle">Diagonalización</text>
+                            <text x="90" y="171" font-size="11" fill="#dcfce7" font-family="Poppins,sans-serif" text-anchor="middle">A = P D P⁻¹</text>
+                            <rect x="200" y="135" width="140" height="44" rx="8" fill="#16a34a"/>
+                            <text x="270" y="154" font-size="12" font-weight="bold" fill="white" font-family="Poppins,sans-serif" text-anchor="middle">Diag. ortogonal</text>
+                            <text x="270" y="171" font-size="11" fill="#dcfce7" font-family="Poppins,sans-serif" text-anchor="middle">A = Q D Qᵀ</text>
+                            <!-- Convergen al final -->
+                            <line x1="90" y1="179" x2="180" y2="215" stroke="#94a3b8" stroke-width="1.5"/>
+                            <line x1="270" y1="179" x2="180" y2="215" stroke="#94a3b8" stroke-width="1.5"/>
+                            <rect x="95" y="220" width="170" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+                            <text x="180" y="245" font-size="11" font-weight="bold" fill="#166534" font-family="Poppins,sans-serif" text-anchor="middle">D = diag(λ₁, ..., λₙ)</text>
+                        </svg>
+                    </div>
+                    <p class="text-center text-xs text-slate-500 mt-2">Dos caminos hacia la misma estructura diagonal D.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════ OBJETIVOS ══════════════ -->
+        <div id="objetivos" class="content-pane">
+            <h2 class="text-2xl sm:text-3xl font-bold text-green-800 mb-6">Objetivos de aprendizaje</h2>
+            <ul class="space-y-3">
+                <li class="flex items-start p-4 bg-white rounded-lg shadow-sm"><span class="text-green-700 mr-3 text-2xl">🧠</span><span class="text-slate-700"><strong></strong> Comprender el concepto de <strong>diagonalización de una matriz</strong> y las condiciones necesarias para que sea posible.</span></li>
+                <li class="flex items-start p-4 bg-white rounded-lg shadow-sm"><span class="text-green-700 mr-3 text-2xl">🔍</span><span class="text-slate-700"><strong></strong> Determinar si una matriz es <strong>diagonalizable</strong> a partir de sus valores y vectores propios.</span></li>
+                <li class="flex items-start p-4 bg-white rounded-lg shadow-sm"><span class="text-green-700 mr-3 text-2xl">🔢</span><span class="text-slate-700"><strong></strong> Construir la <strong>matriz diagonal D</strong> y la matriz de cambio de base \(P\) para diagonalizar una matriz.</span></li>
+                <li class="flex items-start p-4 bg-white rounded-lg shadow-sm"><span class="text-green-700 mr-3 text-2xl">⭐</span><span class="text-slate-700"><strong></strong> Comprender las propiedades de las <strong>matrices simétricas</strong> y su relación con la diagonalización ortogonal.</span></li>
+                <li class="flex items-start p-4 bg-white rounded-lg shadow-sm"><span class="text-green-700 mr-3 text-2xl">⚖️</span><span class="text-slate-700"><strong></strong> Aplicar el <strong>Teorema Espectral</strong> para diagonalizar matrices simétricas mediante bases ortonormales.</span></li>
+                <li class="flex items-start p-4 bg-white rounded-lg shadow-sm"><span class="text-green-700 mr-3 text-2xl">💻</span><span class="text-slate-700"><strong></strong> Relacionar la diagonalización con aplicaciones en ingeniería de sistemas: <strong>análisis de sistemas dinámicos, compresión de datos y aprendizaje automático</strong>.</span></li>
+            </ul>
+            <div class="speech-controls p-3 bg-green-100 rounded-lg flex items-center flex-wrap gap-2 mt-6" data-target="objetivos">
+                <button class="play-btn bg-green-600 hover:bg-green-700 text-white font-medium py-1 px-4 rounded-full flex items-center"><span class="mr-1">▶️</span> Leer</button>
+                <button class="pause-btn bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-1 px-4 rounded-full flex items-center" disabled><span class="mr-1">⏸️</span> Pausar</button>
+                <button class="stop-btn bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-4 rounded-full flex items-center" disabled><span class="mr-1">⏹️</span> Detener</button>
+                <div class="flex items-center ml-2">
+                    <label for="sr-obj" class="text-sm text-green-800 mr-2">Velocidad:</label>
+                    <input type="range" class="speech-rate" id="sr-obj" min="0.5" max="2" step="0.1" value="1">
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════ CONTENIDO ══════════════ -->
+        <div id="contenido" class="content-pane">
+            <h2 class="text-2xl sm:text-3xl font-bold text-green-800 mb-4">Desarrollo del contenido</h2>
+
+            <div class="flex flex-wrap gap-1 mb-0 border-b-2 border-green-300">
+                <button onclick="showMainTab('tab-diag')" id="main-tab-diag" class="main-tab-btn px-3 py-2 text-sm font-semibold rounded-t-lg border-2 border-b-0 border-green-400 bg-green-600 text-white transition-all">📖 Diagonalización</button>
+                <button onclick="showMainTab('tab-cond')" id="main-tab-cond" class="main-tab-btn px-3 py-2 text-sm font-semibold rounded-t-lg border-2 border-b-0 border-green-200 bg-white text-slate-500 hover:text-green-700 transition-all">⚖️ Condiciones</button>
+                <button onclick="showMainTab('tab-sim')" id="main-tab-sim" class="main-tab-btn px-3 py-2 text-sm font-semibold rounded-t-lg border-2 border-b-0 border-green-200 bg-white text-slate-500 hover:text-green-700 transition-all">⭐ Matrices simétricas</button>
+                <button onclick="showMainTab('tab-apl')" id="main-tab-apl" class="main-tab-btn px-3 py-2 text-sm font-semibold rounded-t-lg border-2 border-b-0 border-green-200 bg-white text-slate-500 hover:text-green-700 transition-all">💻 Aplicaciones</button>
+            </div>
+
+            <!-- ══ TAB 1: DIAGONALIZACIÓN ══ -->
+            <div id="tab-diag" class="main-tab-content bg-white border-2 border-green-300 border-t-0 rounded-b-xl p-6">
+                <div class="flex gap-2 mb-6 border-b border-green-200 flex-wrap">
+                    <button onclick="showSub('diag','teoria')" id="diag-tab-teoria" class="sub-tab-diag px-4 py-2 rounded-t-lg text-sm font-semibold border-b-2 border-green-600 text-green-700 bg-green-50">📖 Teoría</button>
+                    <button onclick="showSub('diag','ejemplo')" id="diag-tab-ejemplo" class="sub-tab-diag px-4 py-2 rounded-t-lg text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-green-700">📌 Ejemplo completo</button>
+                    <button onclick="showSub('diag','calculadora')" id="diag-tab-calculadora" class="sub-tab-diag px-4 py-2 rounded-t-lg text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-green-700">⚙️ Calculadora</button>
+                </div>
+
+                <!-- DIAG: TEORÍA -->
+                <div id="diag-teoria" class="sub-diag text-slate-700">
+                    <p class="leading-relaxed mb-5">
+                        En el tema anterior estudiamos cómo calcular valores y vectores propios. Ahora damos el siguiente paso: usar esos vectores propios para reescribir la matriz \(A\) en una forma mucho más simple — una matriz diagonal — que facilita drásticamente los cálculos.
+                    </p>
+
+                    <div class="bg-green-50 border-l-4 border-green-600 rounded-r-xl p-5 mb-6">
+                        <p class="font-bold text-green-800 text-lg mb-2">Definición — Matriz diagonalizable</p>
+                        <p class="text-sm mb-2 text-slate-700">Una matriz cuadrada \(A\) de orden \(n\times n\) es <strong>diagonalizable</strong> si existe una matriz invertible \(P\) y una matriz diagonal \(D\) tales que:</p>
+                        \[A = P\cdot D\cdot P^{-1}\]
+                        <p class="text-sm mt-2 text-slate-700">Equivalentemente:</p>
+                        \[P^{-1}\cdot A\cdot P = D\]
+                        <p class="text-sm mt-3 text-slate-700">Donde \(D\) es la matriz diagonal con los <strong>valores propios</strong> en la diagonal, y \(P\) es la matriz cuyas <strong>columnas son los vectores propios</strong> correspondientes, en el mismo orden.</p>
+                    </div>
+
+                    <hr class="border-slate-200 my-5">
+
+                    <h4 class="font-bold text-green-700 mb-3">¿Por qué es importante la diagonalización?</h4>
+                    <div class="space-y-2">
+                        <div class="accordion-item border border-slate-200 rounded-lg overflow-hidden">
+                            <button class="accordion-header w-full text-left px-4 py-3 bg-green-50 font-semibold text-green-800 flex justify-between items-center" onclick="toggleAccordion(this)">
+                                <span>🔢 Cálculo de potencias</span>
+                                <span class="accordion-icon">▾</span>
+                            </button>
+                            <div class="accordion-body px-4 py-3 text-sm text-slate-600 bg-white hidden">
+                                \(A^n = P\cdot D^n\cdot P^{-1}\), y \(D^n\) se calcula simplemente elevando cada elemento diagonal a la \(n\). Esto es muchísimo más eficiente que multiplicar \(A\) por sí misma \(n\) veces, especialmente para matrices grandes o exponentes altos.
+                            </div>
+                        </div>
+                        <div class="accordion-item border border-slate-200 rounded-lg overflow-hidden">
+                            <button class="accordion-header w-full text-left px-4 py-3 bg-green-50 font-semibold text-green-800 flex justify-between items-center" onclick="toggleAccordion(this)">
+                                <span>📈 Solución de sistemas diferenciales</span>
+                                <span class="accordion-icon">▾</span>
+                            </button>
+                            <div class="accordion-body px-4 py-3 text-sm text-slate-600 bg-white hidden">
+                                Los sistemas \(\mathbf{x}'(t) = A\mathbf{x}(t)\) se resuelven directamente y de forma desacoplada cuando \(A\) es diagonal: cada componente del sistema se convierte en una ecuación diferencial simple e independiente de las demás.
+                            </div>
+                        </div>
+                        <div class="accordion-item border border-slate-200 rounded-lg overflow-hidden">
+                            <button class="accordion-header w-full text-left px-4 py-3 bg-green-50 font-semibold text-green-800 flex justify-between items-center" onclick="toggleAccordion(this)">
+                                <span>💻 Aplicaciones computacionales</span>
+                                <span class="accordion-icon">▾</span>
+                            </button>
+                            <div class="accordion-body px-4 py-3 text-sm text-slate-600 bg-white hidden">
+                                Algoritmos de compresión, análisis espectral de grafos y redes neuronales recurrentes usan la diagonalización como herramienta central para reducir la complejidad computacional de operaciones repetidas sobre matrices.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DIAG: EJEMPLO COMPLETO -->
+                <div id="diag-ejemplo" class="sub-diag hidden text-slate-700">
+                    <h4 class="font-bold text-green-700 mb-3 text-lg">Ejemplo 1 — Diagonalizar \(A = \begin{bmatrix}4&1\\2&3\end{bmatrix}\)</h4>
+
+                    <div class="space-y-4">
+                        <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                            <p class="font-semibold text-green-700 mb-2">Paso 1 — Valores propios</p>
+                            \[\det(A-\lambda I)=(4-\lambda)(3-\lambda)-2=\lambda^2-7\lambda+10=(\lambda-5)(\lambda-2)=0\]
+                            <p class="text-sm mt-2">\(\lambda_1=5\) y \(\lambda_2=2\)</p>
+                        </div>
+
+                        <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                            <p class="font-semibold text-green-700 mb-2">Paso 2 — Vectores propios</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <p>Para \(\lambda_1=5\): \((A-5I)\mathbf{x}=\mathbf{0}\)</p>
+                                    \[\begin{bmatrix}-1&1\\2&-2\end{bmatrix}\mathbf{x}=\mathbf{0}\]
+                                    <div class="mt-1 bg-green-100 rounded px-3 py-1.5 inline-block font-semibold text-green-800">v₁ = (1, 1)</div>
+                                </div>
+                                <div>
+                                    <p>Para \(\lambda_2=2\): \((A-2I)\mathbf{x}=\mathbf{0}\)</p>
+                                    \[\begin{bmatrix}2&1\\2&1\end{bmatrix}\mathbf{x}=\mathbf{0}\]
+                                    <div class="mt-1 bg-green-100 rounded px-3 py-1.5 inline-block font-semibold text-green-800">v₂ = (1, −2)</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                                <p class="font-semibold text-green-700 mb-2">Paso 3 — Verificar L.I.</p>
+                                <p class="text-sm">\(v_1=(1,1)\) y \(v_2=(1,-2)\): \(v_2\neq k\cdot v_1\) para ningún \(k\in\mathbb{R}\).</p>
+                                <p class="text-sm mt-1">Son L.I. ⟹ <strong>A es diagonalizable</strong> ✓ (2 vectores L.I. para matriz 2×2)</p>
+                            </div>
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                                <p class="font-semibold text-green-700 mb-2">Paso 4 — Construir P y D</p>
+                                \[P=\begin{bmatrix}1&1\\1&-2\end{bmatrix} \qquad D=\begin{bmatrix}5&0\\0&2\end{bmatrix}\]
+                            </div>
+                        </div>
+
+                        <div class="bg-green-50 rounded-xl p-4 border border-green-200">
+                            <p class="font-semibold text-green-800 mb-2">Verificación — \(A = P\cdot D\cdot P^{-1}\)</p>
+                            \[\det(P)=(1)(-2)-(1)(1)=-3 \implies P^{-1}=\frac{1}{-3}\begin{bmatrix}-2&-1\\-1&1\end{bmatrix}\]
+                            <p class="text-sm mt-2">Multiplicando \(P\cdot D\cdot P^{-1}\) se recupera exactamente la matriz original \(A\), lo que confirma la diagonalización. ✓</p>
+                        </div>
+
+                        <div class="bg-green-50 rounded-xl p-4 border border-green-200">
+                            <p class="font-semibold text-green-800 mb-2">Aplicación — Potencias de A</p>
+                            \[A^n = P\cdot D^n\cdot P^{-1}, \quad \text{donde } D^n=\operatorname{diag}(5^n,\,2^n)\]
+                            <p class="text-sm mt-2">Ejemplo: \(A^5 = P\cdot\operatorname{diag}(3125,\,32)\cdot P^{-1}\) — sin necesidad de multiplicar \(A\) por sí misma 5 veces.</p>
+                        </div>
+                    </div>
+
+                    <hr class="border-slate-200 my-6">
+
+                    <h4 class="font-bold text-green-700 mb-3 text-lg">Comparativa — Diagonalizable vs. No diagonalizable</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="border-l-4 border-slate-400 pl-4">
+                            <p class="font-bold text-slate-700 mb-2">NO diagonalizable</p>
+                            \[A=\begin{bmatrix}2&1\\0&2\end{bmatrix}\]
+                            <p class="text-xs text-slate-600 mt-1">\(\det(A-\lambda I)=(2-\lambda)^2=0\): \(\lambda=2\), mult. algebraica = 2.</p>
+                            <p class="text-xs text-slate-600">Solo \(v=(1,0)\) como vector propio: mult. geométrica = 1 &lt; mult. algebraica = 2.</p>
+                            <div class="mt-2 bg-slate-100 rounded px-3 py-1.5 text-xs font-semibold text-slate-700">Solo 1 vector propio L.I. — NO diagonalizable</div>
+                        </div>
+                        <div class="border-l-4 border-green-500 pl-4">
+                            <p class="font-bold text-green-700 mb-2">SÍ diagonalizable</p>
+                            \[A=\begin{bmatrix}4&1\\2&3\end{bmatrix}\]
+                            <p class="text-xs text-slate-600 mt-1">\(\lambda_1=5,\,\lambda_2=2\) — distintos.</p>
+                            <p class="text-xs text-slate-600">\(v_1=(1,1)\), \(v_2=(1,-2)\) — L.I. ✓ (\(n=2\) valores propios distintos)</p>
+                            <div class="mt-2 bg-green-100 rounded px-3 py-1.5 text-xs font-semibold text-green-800">2 vectores propios L.I. — SÍ diagonalizable ✓</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DIAG: CALCULADORA -->
+                <div id="diag-calculadora" class="sub-diag hidden">
+                    <h4 class="font-bold text-green-800 mb-3 text-lg">Calculadora — Diagonalización de \(A\) (2×2)</h4>
+                    <p class="text-sm text-slate-600 mb-4">Ingresa los coeficientes de \(A\) y observa si es diagonalizable, junto con sus matrices \(P\) y \(D\):</p>
+                    <div class="bg-green-50 rounded-lg p-4 mb-4">
+                        <p class="font-semibold text-green-800 mb-2 text-center">A = [[a, b], [c, d]]</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm">
+                            <div class="text-center"><label class="block text-slate-500 text-xs">a</label><input type="number" id="diag-a" value="4" class="w-full border rounded px-1 py-1 text-center font-mono" step="0.5"></div>
+                            <div class="text-center"><label class="block text-slate-500 text-xs">b</label><input type="number" id="diag-b" value="1" class="w-full border rounded px-1 py-1 text-center font-mono" step="0.5"></div>
+                            <div class="text-center"><label class="block text-slate-500 text-xs">c</label><input type="number" id="diag-c" value="2" class="w-full border rounded px-1 py-1 text-center font-mono" step="0.5"></div>
+                            <div class="text-center"><label class="block text-slate-500 text-xs">d</label><input type="number" id="diag-d" value="3" class="w-full border rounded px-1 py-1 text-center font-mono" step="0.5"></div>
+                        </div>
+                    </div>
+                    <button onclick="calcularDiagonalizacion()" class="bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors mb-4">🔢 Diagonalizar</button>
+                    <div id="diag-resultado" class="hidden bg-white rounded-lg p-4 border border-green-300 text-sm space-y-2"></div>
+                </div>
+            </div>
+
+            <!-- ══ TAB 2: CONDICIONES ══ -->
+            <div id="tab-cond" class="main-tab-content hidden bg-white border-2 border-green-300 border-t-0 rounded-b-xl p-6">
+                <h4 class="font-bold text-green-700 text-lg mb-3">Condición de diagonalización</h4>
+                <div class="bg-green-50 border-l-4 border-green-600 rounded-r-xl p-5 mb-6">
+                    <p class="text-sm text-slate-700">Una matriz \(A\) de orden \(n\times n\) es diagonalizable si y solo si tiene exactamente <strong>\(n\) vectores propios linealmente independientes</strong>.</p>
+                </div>
+
+                <h4 class="font-bold text-green-700 mb-3">Condiciones suficientes para diagonalización</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                    <div class="border-l-4 border-green-500 pl-4">
+                        <p class="font-semibold text-green-700">Valores propios distintos</p>
+                        <p class="text-sm text-slate-600">Si \(A\) tiene \(n\) valores propios distintos, entonces \(A\) siempre es diagonalizable. (Recordatorio: vectores propios de valores propios distintos son siempre L.I.)</p>
+                    </div>
+                    <div class="border-l-4 border-green-500 pl-4">
+                        <p class="font-semibold text-green-700">Matriz simétrica</p>
+                        <p class="text-sm text-slate-600">Si \(A=A^T\), entonces \(A\) siempre es diagonalizable (Teorema Espectral, que veremos en la siguiente pestaña).</p>
+                    </div>
+                </div>
+
+                <p class="text-sm text-slate-700 mb-6">Una matriz puede <strong>NO</strong> ser diagonalizable cuando un valor propio tiene multiplicidad algebraica mayor que su multiplicidad geométrica.</p>
+
+                <hr class="border-slate-200 my-5">
+
+                <h4 class="font-bold text-green-700 mb-3 text-lg">Multiplicidad algebraica vs. geométrica</h4>
+                <div class="overflow-x-auto mb-5">
+                    <table class="w-full text-sm border-collapse">
+                        <thead><tr class="bg-green-700 text-white">
+                            <th class="p-3 text-left">Concepto</th>
+                            <th class="p-3 text-left">Definición</th>
+                        </tr></thead>
+                        <tbody>
+                            <tr class="bg-green-50 border-b border-green-200">
+                                <td class="p-3 font-semibold">Multiplicidad algebraica</td>
+                                <td class="p-3">Número de veces que \(\lambda\) es raíz del polinomio característico.</td>
+                            </tr>
+                            <tr class="bg-white border-b border-green-200">
+                                <td class="p-3 font-semibold">Multiplicidad geométrica</td>
+                                <td class="p-3">Dimensión del espacio propio = número de vectores propios L.I. asociados a \(\lambda\).</td>
+                            </tr>
+                            <tr class="bg-green-50">
+                                <td class="p-3 font-semibold">Relación fundamental</td>
+                                <td class="p-3">mult. geométrica ≤ mult. algebraica, siempre. Si son iguales para todos los valores propios, la matriz es diagonalizable.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Proceso de 4 pasos -->
+                <h4 class="font-bold text-green-700 mb-3 text-lg">Proceso de diagonalización — cuatro pasos</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
+                    <div class="border border-green-200 rounded-lg p-3 text-center bg-green-50">
+                        <div class="bg-green-700 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mx-auto mb-2">1</div>
+                        <p class="font-semibold text-green-800 text-sm">Calcular valores propios</p>
+                        <p class="text-xs text-slate-500 mt-1">det(A − λI) = 0</p>
+                    </div>
+                    <div class="border border-green-200 rounded-lg p-3 text-center bg-green-50">
+                        <div class="bg-green-700 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mx-auto mb-2">2</div>
+                        <p class="font-semibold text-green-800 text-sm">Calcular vectores propios</p>
+                        <p class="text-xs text-slate-500 mt-1">(A − λI)x = 0</p>
+                    </div>
+                    <div class="border border-green-200 rounded-lg p-3 text-center bg-green-50">
+                        <div class="bg-green-700 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mx-auto mb-2">3</div>
+                        <p class="font-semibold text-green-800 text-sm">Verificar independencia</p>
+                        <p class="text-xs text-slate-500 mt-1">n vectores L.I.</p>
+                    </div>
+                    <div class="border border-green-200 rounded-lg p-3 text-center bg-green-50">
+                        <div class="bg-green-700 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mx-auto mb-2">4</div>
+                        <p class="font-semibold text-green-800 text-sm">Construir P y D</p>
+                        <p class="text-xs text-slate-500 mt-1">P=[v₁|...|vₙ], D=diag(λᵢ)</p>
+                    </div>
+                </div>
+                <div class="bg-green-50 rounded-lg p-3 text-center border border-green-200">
+                    <p class="text-sm font-semibold text-green-800">Resultado: \(A=PDP^{-1}\) con \(D=\operatorname{diag}(\lambda_1,\ldots,\lambda_n)\)</p>
+                </div>
+            </div>
+
+            <!-- ══ TAB 3: MATRICES SIMÉTRICAS ══ -->
+            <div id="tab-sim" class="main-tab-content hidden bg-white border-2 border-green-300 border-t-0 rounded-b-xl p-6">
+                <div class="flex gap-2 mb-6 border-b border-green-200 flex-wrap">
+                    <button onclick="showSub('sim','teoria')" id="sim-tab-teoria" class="sub-tab-sim px-4 py-2 rounded-t-lg text-sm font-semibold border-b-2 border-green-600 text-green-700 bg-green-50">📖 Teoría</button>
+                    <button onclick="showSub('sim','ejemplo')" id="sim-tab-ejemplo" class="sub-tab-sim px-4 py-2 rounded-t-lg text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-green-700">📌 Ejemplo ortogonal</button>
+                </div>
+
+                <!-- SIM: TEORÍA -->
+                <div id="sim-teoria" class="sub-sim text-slate-700">
+                    <div class="bg-green-50 border-l-4 border-green-600 rounded-r-xl p-5 mb-6">
+                        <p class="font-bold text-green-800 text-lg mb-2">Definición — Matriz simétrica</p>
+                        <p class="text-sm text-slate-700 mb-2">Una matriz \(A\) de orden \(n\times n\) es <strong>simétrica</strong> si:</p>
+                        \[A^T = A\]
+                        <p class="text-sm mt-2 text-slate-700">Es decir, el elemento en la posición \((i,j)\) es igual al elemento en la posición \((j,i)\) para todo \(i,j\):</p>
+                        \[a_{ij}=a_{ji}\quad\text{para todo }i,j\]
+                        <p class="text-sm mt-3 text-slate-700">Ejemplo de matriz simétrica 3×3:</p>
+                        \[A=\begin{bmatrix}3&1&-2\\1&5&0\\-2&0&4\end{bmatrix}\]
+                    </div>
+
+                    <hr class="border-slate-200 my-5">
+
+                    <h4 class="font-bold text-green-700 mb-3 text-lg">Propiedades fundamentales (A = Aᵀ)</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+                        <div class="border border-green-200 rounded-lg p-3 bg-green-50">
+                            <div class="bg-green-700 text-white rounded-full w-7 h-7 flex items-center justify-center font-bold text-xs mb-2">P1</div>
+                            <p class="font-semibold text-green-800 text-sm">Valores propios siempre reales</p>
+                            <p class="text-xs text-slate-500 mt-1">\(\lambda_i\in\mathbb{R}\)</p>
+                            <p class="text-xs text-slate-400 italic mt-1">Interpretación física directa</p>
+                        </div>
+                        <div class="border border-green-200 rounded-lg p-3 bg-green-50">
+                            <div class="bg-green-700 text-white rounded-full w-7 h-7 flex items-center justify-center font-bold text-xs mb-2">P2</div>
+                            <p class="font-semibold text-green-800 text-sm">Vectores propios ortogonales</p>
+                            <p class="text-xs text-slate-500 mt-1">\(\lambda_i\neq\lambda_j \Rightarrow v_i\cdot v_j=0\)</p>
+                            <p class="text-xs text-slate-400 italic mt-1">Base ortonormal garantizada</p>
+                        </div>
+                        <div class="border border-green-200 rounded-lg p-3 bg-green-50">
+                            <div class="bg-green-700 text-white rounded-full w-7 h-7 flex items-center justify-center font-bold text-xs mb-2">P3</div>
+                            <p class="font-semibold text-green-800 text-sm">Siempre diagonalizable</p>
+                            <p class="text-xs text-slate-500 mt-1">\(A=QDQ^T\)</p>
+                            <p class="text-xs text-slate-400 italic mt-1">Teorema Espectral</p>
+                        </div>
+                        <div class="border border-green-200 rounded-lg p-3 bg-green-50">
+                            <div class="bg-green-700 text-white rounded-full w-7 h-7 flex items-center justify-center font-bold text-xs mb-2">P4</div>
+                            <p class="font-semibold text-green-800 text-sm">Inversa de Q fácil de calcular</p>
+                            <p class="text-xs text-slate-500 mt-1">\(Q^{-1}=Q^T\)</p>
+                            <p class="text-xs text-slate-400 italic mt-1">Ahorra cálculo de inversas</p>
+                        </div>
+                    </div>
+
+                    <hr class="border-slate-200 my-5">
+
+                    <div class="bg-green-50 border-l-4 border-green-600 rounded-r-xl p-5 mb-5">
+                        <h4 class="font-bold text-green-800 mb-2">Teorema Espectral</h4>
+                        <p class="text-sm text-slate-700 mb-2">Sea \(A\) una matriz simétrica de orden \(n\times n\). Entonces existe una matriz ortogonal \(Q\) (cuyas columnas son vectores propios ortonormales de \(A\)) tal que:</p>
+                        \[A = Q\cdot D\cdot Q^T\]
+                        <p class="text-sm mt-2 text-slate-700">donde \(D\) es la matriz diagonal con los valores propios de \(A\). Como \(Q\) es ortogonal: \(Q^T\cdot Q=I\), lo que implica \(Q^{-1}=Q^T\).</p>
+                        <p class="text-sm mt-2 font-semibold text-green-800">Consecuencia: no es necesario calcular la inversa de \(Q\), basta con transponerla.</p>
+                    </div>
+
+                    <h4 class="font-bold text-green-700 mb-3">Proceso de diagonalización ortogonal</h4>
+                    <div class="space-y-2">
+                        <div class="flex items-start gap-3 p-3 bg-green-50 rounded-lg">
+                            <span class="bg-green-600 text-white rounded-full w-7 h-7 flex items-center justify-center text-xs font-bold flex-shrink-0">1</span>
+                            <p class="text-sm text-slate-700">Calcular los valores propios de \(A\) resolviendo \(\det(A-\lambda I)=0\).</p>
+                        </div>
+                        <div class="flex items-start gap-3 p-3 bg-green-50 rounded-lg">
+                            <span class="bg-green-600 text-white rounded-full w-7 h-7 flex items-center justify-center text-xs font-bold flex-shrink-0">2</span>
+                            <p class="text-sm text-slate-700">Para cada valor propio, encontrar los vectores propios.</p>
+                        </div>
+                        <div class="flex items-start gap-3 p-3 bg-green-50 rounded-lg">
+                            <span class="bg-green-600 text-white rounded-full w-7 h-7 flex items-center justify-center text-xs font-bold flex-shrink-0">3</span>
+                            <p class="text-sm text-slate-700">Si un valor propio tiene multiplicidad mayor que 1, aplicar Gram-Schmidt para ortogonalizar los vectores propios del mismo subespacio.</p>
+                        </div>
+                        <div class="flex items-start gap-3 p-3 bg-green-50 rounded-lg">
+                            <span class="bg-green-600 text-white rounded-full w-7 h-7 flex items-center justify-center text-xs font-bold flex-shrink-0">4</span>
+                            <p class="text-sm text-slate-700">Normalizar todos los vectores propios: \(q_i = v_i/\|v_i\|\).</p>
+                        </div>
+                        <div class="flex items-start gap-3 p-3 bg-green-50 rounded-lg">
+                            <span class="bg-green-600 text-white rounded-full w-7 h-7 flex items-center justify-center text-xs font-bold flex-shrink-0">5</span>
+                            <p class="text-sm text-slate-700">Construir \(Q\) con los vectores propios ortonormales como columnas. La diagonalización es \(A=Q\cdot D\cdot Q^T\).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SIM: EJEMPLO ORTOGONAL -->
+                <div id="sim-ejemplo" class="sub-sim hidden text-slate-700">
+                    <h4 class="font-bold text-green-700 mb-3 text-lg">Ejemplo 2 — Diagonalización ortogonal de \(A=\begin{bmatrix}3&1\\1&3\end{bmatrix}\)</h4>
+
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                                <p class="font-semibold text-green-700 mb-2">Paso 1 — Valores propios</p>
+                                \[\det(A-\lambda I)=(3-\lambda)^2-1=0\]
+                                \[\lambda^2-6\lambda+8=(\lambda-4)(\lambda-2)=0\]
+                                <p class="text-sm mt-1">\(\lambda_1=4,\,\lambda_2=2\) — ambos reales (P1 confirmada)</p>
+                            </div>
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                                <p class="font-semibold text-green-700 mb-2">Paso 2 — Vectores propios</p>
+                                <p class="text-sm">\(\lambda_1=4 \Rightarrow v_1=(1,1)\)</p>
+                                <p class="text-sm">\(\lambda_2=2 \Rightarrow v_2=(1,-1)\)</p>
+                                <p class="text-sm mt-1 text-green-700 font-semibold">\(v_1\cdot v_2=0\) (Teorema Espectral — P2 confirmada)</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                                <p class="font-semibold text-green-700 mb-2">Paso 3 — Normalizar</p>
+                                \[\|v_1\|=\sqrt{2} \Rightarrow q_1=\tfrac{1}{\sqrt2}(1,1)\]
+                                \[\|v_2\|=\sqrt{2} \Rightarrow q_2=\tfrac{1}{\sqrt2}(1,-1)\]
+                                <p class="text-sm mt-1">\(q_1\cdot q_2=0\) · \(|q_1|=|q_2|=1\)</p>
+                            </div>
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                                <p class="font-semibold text-green-700 mb-2">Paso 4 — Construir Q y D</p>
+                                \[Q=\frac{1}{\sqrt2}\begin{bmatrix}1&1\\1&-1\end{bmatrix} \qquad D=\begin{bmatrix}4&0\\0&2\end{bmatrix}\]
+                                <p class="text-sm mt-1">\(Q^TQ=I \implies Q^{-1}=Q^T\)</p>
+                                <p class="text-xs text-slate-500 italic">Solo se transpone, no se invierte</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-green-50 rounded-xl p-4 border border-green-200">
+                            <p class="font-semibold text-green-800 mb-2">Teorema Espectral aplicado: \(A=QDQ^T\)</p>
+                            <p class="text-sm">Ventaja clave: \(Q^{-1}=Q^T\), por lo que:</p>
+                            \[A^n = Q\cdot\operatorname{diag}(4^n,\,2^n)\cdot Q^T\]
+                            <p class="text-sm mt-2">Ejemplo: \(A^{10}=Q\cdot\operatorname{diag}(1\,048\,576,\,1\,024)\cdot Q^T\)</p>
+                        </div>
+
+                        <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                            <p class="font-semibold text-slate-700 mb-2">Cálculo completo de \(A^{10}\)</p>
+                            <p class="text-sm mb-2">Usando la propiedad de la diagonalización ortogonal, el producto se simplifica a:</p>
+                            \[A^{10}=\frac{1}{2}\begin{bmatrix}4^{10}+2^{10}&4^{10}-2^{10}\\4^{10}-2^{10}&4^{10}+2^{10}\end{bmatrix}\]
+                            <p class="text-sm mt-2">Sustituyendo \(4^{10}=1\,048\,576\) y \(2^{10}=1\,024\):</p>
+                            \[A^{10}=\begin{bmatrix}524\,800&523\,776\\523\,776&524\,800\end{bmatrix}\]
+                            <p class="text-xs text-slate-500 italic mt-2">Sin diagonalización, este cálculo requeriría multiplicar A por sí misma 10 veces.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ TAB 4: APLICACIONES ══ -->
+            <div id="tab-apl" class="main-tab-content hidden bg-white border-2 border-green-300 border-t-0 rounded-b-xl p-6">
+                <h4 class="font-bold text-green-700 text-lg mb-3">Importancia en ingeniería</h4>
+                <p class="text-sm leading-relaxed text-slate-700 mb-5">Las matrices simétricas aparecen de forma natural en múltiples áreas de la ingeniería de sistemas. Haz clic en cada tarjeta para conocer cada aplicación en detalle:</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-6">
+                    <div class="flip-card h-44 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-inner">
+                            <div class="flip-front bg-green-50 border-2 border-green-300 rounded-xl flex flex-col items-center justify-center p-4">
+                                <span class="text-3xl mb-2">📊</span>
+                                <p class="font-bold text-green-800 text-center text-sm">Matriz de covarianza en ML</p>
+                                <p class="text-xs text-green-600 mt-1">Clic para ver más</p>
+                            </div>
+                            <div class="flip-back bg-green-700 rounded-xl flex flex-col justify-center p-4">
+                                <p class="text-white text-xs text-center">C = XᵀX es siempre simétrica y semidefinida positiva. Sus valores propios representan la varianza en cada dirección de los datos.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card h-44 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-inner">
+                            <div class="flip-front bg-green-50 border-2 border-green-300 rounded-xl flex flex-col items-center justify-center p-4">
+                                <span class="text-3xl mb-2">📉</span>
+                                <p class="font-bold text-green-800 text-center text-sm">PCA — Componentes principales</p>
+                                <p class="text-xs text-green-600 mt-1">Clic para ver más</p>
+                            </div>
+                            <div class="flip-back bg-green-700 rounded-xl flex flex-col justify-center p-4">
+                                <p class="text-white text-xs text-center">PCA descompone la matriz de covarianza para encontrar las direcciones de mayor varianza en los datos, reduciendo su dimensionalidad.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card h-44 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-inner">
+                            <div class="flip-front bg-green-50 border-2 border-green-300 rounded-xl flex flex-col items-center justify-center p-4">
+                                <span class="text-3xl mb-2">🕸️</span>
+                                <p class="font-bold text-green-800 text-center text-sm">Grafos y redes</p>
+                                <p class="text-xs text-green-600 mt-1">Clic para ver más</p>
+                            </div>
+                            <div class="flip-back bg-green-700 rounded-xl flex flex-col justify-center p-4">
+                                <p class="text-white text-xs text-center">La matriz de adyacencia de un grafo no dirigido es simétrica. Sus valores propios (espectro) caracterizan la estructura de la red.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flip-card h-44 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-inner">
+                            <div class="flip-front bg-green-50 border-2 border-green-300 rounded-xl flex flex-col items-center justify-center p-4">
+                                <span class="text-3xl mb-2">⚙️</span>
+                                <p class="font-bold text-green-800 text-center text-sm">Sistemas físicos</p>
+                                <p class="text-xs text-green-600 mt-1">Clic para ver más</p>
+                            </div>
+                            <div class="flip-back bg-green-700 rounded-xl flex flex-col justify-center p-4">
+                                <p class="text-white text-xs text-center">Las matrices de inercia, rigidez y amortiguamiento en sistemas mecánicos son siempre simétricas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-slate-200 my-5">
+
+                <h4 class="font-bold text-green-700 mb-3 text-lg">Síntesis — Comparativa general</h4>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm border-collapse">
+                        <thead><tr class="bg-green-700 text-white">
+                            <th class="p-3 text-left rounded-tl-lg">Aspecto</th>
+                            <th class="p-3 text-left">Diagonalización general</th>
+                            <th class="p-3 text-left rounded-tr-lg">Diagonalización ortogonal</th>
+                        </tr></thead>
+                        <tbody>
+                            <tr class="bg-green-50 border-b border-green-200"><td class="p-3 font-semibold">Aplica a</td><td class="p-3">Matrices con n v.p. L.I.</td><td class="p-3">Matrices simétricas (A = Aᵀ)</td></tr>
+                            <tr class="bg-white border-b border-green-200"><td class="p-3 font-semibold">Factorización</td><td class="p-3 font-mono text-xs">A = P D P⁻¹</td><td class="p-3 font-mono text-xs">A = Q D Qᵀ</td></tr>
+                            <tr class="bg-green-50 border-b border-green-200"><td class="p-3 font-semibold">Matriz de cambio</td><td class="p-3">P (invertible)</td><td class="p-3">Q (ortogonal, Q⁻¹ = Qᵀ)</td></tr>
+                            <tr class="bg-white border-b border-green-200"><td class="p-3 font-semibold">Vectores de P/Q</td><td class="p-3">Vectores propios</td><td class="p-3">Vectores propios ortonormales</td></tr>
+                            <tr class="bg-green-50 border-b border-green-200"><td class="p-3 font-semibold">Calcular inversa</td><td class="p-3">Algoritmo de eliminación</td><td class="p-3">Solo transponer Q</td></tr>
+                            <tr class="bg-white"><td class="p-3 font-semibold">Valores propios</td><td class="p-3">Pueden ser complejos</td><td class="p-3">Siempre son reales</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-green-50 rounded-xl p-5 border-l-4 border-green-600 mt-6">
+                    <h4 class="font-bold text-green-800 mb-2">Puntos clave de esta unidad</h4>
+                    <p class="text-sm leading-relaxed text-slate-700"><strong>Diagonalización:</strong> A = PDP⁻¹. Posible si A tiene n vectores propios L.I. <strong>Condición:</strong> mult. geométrica = mult. algebraica para cada valor propio. <strong>Potencias:</strong> Aⁿ = P Dⁿ P⁻¹, mucho más eficiente computacionalmente. <strong>Matrices simétricas:</strong> siempre diagonalizables, valores propios reales, vectores propios ortogonales. <strong>Teorema Espectral:</strong> A = QDQᵀ con Q ortogonal — la ventaja es que Q⁻¹ = Qᵀ.</p>
+                </div>
+            </div>
+        </div>
+
+       <!-- ══════════════ ACTIVIDADES ══════════════ -->
+        <div id="actividades" class="content-pane">
+            <h2 class="text-2xl sm:text-3xl font-bold text-green-800 mb-6">Actividades prácticas</h2>
+
+            <!-- ACTIVIDAD 1 -->
+            <div class="bg-white border-l-4 border-green-500 rounded-lg shadow-sm p-6 mb-6">
+                <h3 class="text-xl font-bold text-green-700 mb-2">Actividad 1. Diagonalización</h3>
+                <p class="text-slate-600 mb-4">Para cada matriz, escribe sus valores propios e indica si es diagonalizable.</p>
+                <div class="space-y-5">
+
+                    <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                        <p class="font-bold text-green-800 mb-2">a)</p>
+                        \[A = \begin{bmatrix}5&0\\0&3\end{bmatrix}\]
+                        <p class="text-sm text-slate-600 mt-2 mb-2">Valores propios (separados por coma):</p>
+                        <input type="text" id="a1-vp-a" placeholder="λ₁, λ₂" class="w-32 border-2 border-green-300 rounded-lg px-3 py-2 text-center font-mono text-sm mb-2">
+                        <p class="text-sm text-slate-600 mb-1">¿Es diagonalizable?</p>
+                        <div class="flex gap-4">
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="a1-diag-a" value="si" class="accent-green-600"> <span class="text-sm font-semibold text-green-700">Sí</span></label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="a1-diag-a" value="no" class="accent-green-600"> <span class="text-sm font-semibold text-slate-600">No</span></label>
+                        </div>
+                        <div id="fb-a1a" class="hidden mt-2 p-2 rounded text-sm font-medium"></div>
+                    </div>
+
+                    <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                        <p class="font-bold text-green-800 mb-2">b)</p>
+                        \[A = \begin{bmatrix}2&1\\0&2\end{bmatrix}\]
+                        <p class="text-sm text-slate-600 mt-2 mb-2">Valores propios (separados por coma; si se repite, escríbelo una vez):</p>
+                        <input type="text" id="a1-vp-b" placeholder="λ" class="w-32 border-2 border-green-300 rounded-lg px-3 py-2 text-center font-mono text-sm mb-2">
+                        <p class="text-sm text-slate-600 mb-1">¿Es diagonalizable?</p>
+                        <div class="flex gap-4">
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="a1-diag-b" value="si" class="accent-green-600"> <span class="text-sm font-semibold text-green-700">Sí</span></label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="a1-diag-b" value="no" class="accent-green-600"> <span class="text-sm font-semibold text-slate-600">No</span></label>
+                        </div>
+                        <div id="fb-a1b" class="hidden mt-2 p-2 rounded text-sm font-medium"></div>
+                    </div>
+
+                    <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                        <p class="font-bold text-green-800 mb-2">c)</p>
+                        \[A = \begin{bmatrix}1&2\\2&1\end{bmatrix}\]
+                        <p class="text-sm text-slate-600 mt-2 mb-2">Valores propios (de menor a mayor, separados por coma):</p>
+                        <input type="text" id="a1-vp-c" placeholder="λ₁, λ₂" class="w-32 border-2 border-green-300 rounded-lg px-3 py-2 text-center font-mono text-sm mb-2">
+                        <p class="text-sm text-slate-600 mb-1">¿Es diagonalizable?</p>
+                        <div class="flex gap-4">
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="a1-diag-c" value="si" class="accent-green-600"> <span class="text-sm font-semibold text-green-700">Sí</span></label>
+                            <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="a1-diag-c" value="no" class="accent-green-600"> <span class="text-sm font-semibold text-slate-600">No</span></label>
+                        </div>
+                        <div id="fb-a1c" class="hidden mt-2 p-2 rounded text-sm font-medium"></div>
+                    </div>
+
+                </div>
+                <button id="check-act1-btn" class="mt-4 bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors">Verificar respuestas</button>
+                <div id="act1-result" class="mt-3 font-medium"></div>
+            </div>
+
+            <!-- ACTIVIDAD 2 -->
+            <div class="bg-white border-l-4 border-green-500 rounded-lg shadow-sm p-6 mb-6">
+                <h3 class="text-xl font-bold text-green-700 mb-2">Actividad 2. Emparejamiento — Diagonalización ortogonal</h3>
+                <p class="text-slate-600 mb-2">Sea \(A = \begin{bmatrix}2&1\\1&2\end{bmatrix}\). Haz clic en un valor propio y luego en su vector propio ortonormal correspondiente.</p>
+                <p class="text-sm text-slate-500 mb-6">Pista: los vectores propios ortonormales se obtienen normalizando los vectores propios: \(q = v/\|v\|\).</p>
+                <div class="flex flex-col lg:flex-row gap-8 mb-4">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-green-800 mb-4 text-center">Valores propios</h4>
+                        <div class="space-y-3">
+                            <div class="act2-vp bg-gradient-to-r from-green-100 to-green-200 p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-all border-2 border-transparent" data-vp="l1"><div class="flex items-center justify-between"><span class="font-bold text-green-800">λ = 1</span><span class="a2hint text-xs bg-green-300 px-2 py-1 rounded">Clic</span></div></div>
+                            <div class="act2-vp bg-gradient-to-r from-green-100 to-green-200 p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-all border-2 border-transparent" data-vp="l3"><div class="flex items-center justify-between"><span class="font-bold text-green-800">λ = 3</span><span class="a2hint text-xs bg-green-300 px-2 py-1 rounded">Clic</span></div></div>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-green-800 mb-4 text-center">Vectores propios ortonormales</h4>
+                        <div class="space-y-3">
+                            <div class="act2-vec bg-gray-50 p-4 rounded-lg shadow-md border-2 border-dashed border-gray-300 cursor-pointer hover:bg-gray-100 transition-all min-h-[64px] flex items-center" data-vec="v3"><div class="w-full"><p class="text-slate-700 text-sm font-mono">\(q = \frac{1}{\sqrt{2}}(1, 1)\)</p><div class="a2matched mt-1 hidden text-green-700 font-semibold text-sm"></div></div></div>
+                            <div class="act2-vec bg-gray-50 p-4 rounded-lg shadow-md border-2 border-dashed border-gray-300 cursor-pointer hover:bg-gray-100 transition-all min-h-[64px] flex items-center" data-vec="v1"><div class="w-full"><p class="text-slate-700 text-sm font-mono">\(q = \frac{1}{\sqrt{2}}(-1, 1)\)</p><div class="a2matched mt-1 hidden text-green-700 font-semibold text-sm"></div></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-3 bg-green-50 border border-green-200 rounded-lg mb-4"><p class="text-sm text-green-800"><strong>💡</strong> Haz clic en un valor propio y luego en su vector ortonormal correspondiente.</p></div>
+                <div class="flex gap-4">
+                    <button id="act2-check-btn" class="bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors">Verificar</button>
+                    <button id="act2-reset-btn" class="bg-gray-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors">Reiniciar</button>
+                </div>
+                <div id="act2-result" class="mt-4 font-medium"></div>
+            </div>
+
+            <!-- ACTIVIDAD 3 -->
+            <div class="bg-white border-l-4 border-green-500 rounded-lg shadow-sm p-6 mb-6">
+                <h3 class="text-xl font-bold text-green-700 mb-2">Actividad 3. Aplicaciones — Verificador numérico</h3>
+                <p class="text-slate-600 mb-4">Completa los cálculos y escribe los valores numéricos correctos.</p>
+                <div class="space-y-5">
+
+                    <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                        <p class="font-bold text-green-800 mb-2">a) Calcula \(A^6\) usando diagonalización, donde \(A = \begin{bmatrix}3&1\\1&3\end{bmatrix}\) tiene \(\lambda_1=4\), \(\lambda_2=2\).</p>
+                        <p class="text-sm text-slate-600 mt-2 mb-3">Los valores de la diagonal de \(D^6\) son \(\lambda_1^6\) y \(\lambda_2^6\). Completa:</p>
+                        <div class="flex flex-wrap gap-4 items-center text-sm">
+                            <span>\(\lambda_1^6 = 4^6 =\)</span>
+                            <input type="number" id="a3-l1" placeholder="?" class="w-24 border-2 border-green-300 rounded-lg px-2 py-1 text-center font-mono">
+                            <span class="ml-4">\(\lambda_2^6 = 2^6 =\)</span>
+                            <input type="number" id="a3-l2" placeholder="?" class="w-24 border-2 border-green-300 rounded-lg px-2 py-1 text-center font-mono">
+                        </div>
+                        <div id="fb-a3a" class="hidden mt-2 p-2 rounded text-sm font-medium"></div>
+                    </div>
+
+                    <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                        <p class="font-bold text-green-800 mb-2">b) Sea \(A = \begin{bmatrix}1&2&0\\2&1&0\\0&0&3\end{bmatrix}\). Escribe sus tres valores propios (de menor a mayor, separados por coma):</p>
+                        <input type="text" id="a3-b" placeholder="λ₁, λ₂, λ₃" class="w-40 border-2 border-green-300 rounded-lg px-3 py-2 text-center font-mono text-sm mt-2">
+                        <div id="fb-a3b" class="hidden mt-2 p-2 rounded text-sm font-medium"></div>
+                    </div>
+
+                    <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                        <p class="font-bold text-green-800 mb-2">c) La matriz de covarianza \(C = \begin{bmatrix}4&2\\2&1\end{bmatrix}\) tiene valores propios \(\lambda_1 \approx 0\) y \(\lambda_2 \approx 5\). El vector propio de \(\lambda_2=5\) es la primera componente principal (dirección de mayor varianza). ¿Cuál de estas afirmaciones es correcta?</p>
+                        <div class="space-y-2 mt-3">
+                            <label class="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-green-100"><input type="radio" name="a3c" value="c1" class="accent-green-600"> <span class="text-sm">El vector propio de λ₂=5 apunta en la dirección donde los datos tienen más variación</span></label>
+                            <label class="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-green-100"><input type="radio" name="a3c" value="c2" class="accent-green-600"> <span class="text-sm">El vector propio de λ₁≈0 apunta en la dirección de mayor varianza</span></label>
+                            <label class="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-green-100"><input type="radio" name="a3c" value="c3" class="accent-green-600"> <span class="text-sm">Los valores propios no tienen relación con la varianza</span></label>
+                        </div>
+                        <div id="fb-a3c" class="hidden mt-2 p-2 rounded text-sm font-medium"></div>
+                    </div>
+
+                </div>
+                <button id="check-act3-btn" class="mt-4 bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors">Verificar respuestas</button>
+                <div id="act3-result" class="mt-3 font-medium"></div>
+            </div>
+
+            <!-- ACTIVIDAD 4 -->
+            <div class="bg-white border-l-4 border-green-500 rounded-lg shadow-sm p-6">
+                <h3 class="text-xl font-bold text-green-700 mb-2">Actividad 4. Verdadero o Falso</h3>
+                <p class="text-slate-600 mb-4">Escribe <strong>V</strong> o <strong>F</strong> en cada casilla y verifica tus respuestas.</p>
+                <div class="space-y-4">
+                    <div class="p-4 bg-green-50 rounded-lg border border-green-200 flex items-start gap-4">
+                        <input type="text" id="vf1" maxlength="1" class="vf-input w-12 h-12 border-2 border-green-300 rounded-lg text-center font-bold text-lg uppercase flex-shrink-0" placeholder="?">
+                        <p class="text-slate-700 text-sm pt-2">Toda matriz diagonal es simétrica.</p>
+                    </div>
+                    <div class="p-4 bg-green-50 rounded-lg border border-green-200 flex items-start gap-4">
+                        <input type="text" id="vf2" maxlength="1" class="vf-input w-12 h-12 border-2 border-green-300 rounded-lg text-center font-bold text-lg uppercase flex-shrink-0" placeholder="?">
+                        <p class="text-slate-700 text-sm pt-2">Toda matriz simétrica es diagonal.</p>
+                    </div>
+                    <div class="p-4 bg-green-50 rounded-lg border border-green-200 flex items-start gap-4">
+                        <input type="text" id="vf3" maxlength="1" class="vf-input w-12 h-12 border-2 border-green-300 rounded-lg text-center font-bold text-lg uppercase flex-shrink-0" placeholder="?">
+                        <p class="text-slate-700 text-sm pt-2">Si \(A = PDP^{-1}\), entonces \(A^n = PD^nP^{-1}\).</p>
+                    </div>
+                    <div class="p-4 bg-green-50 rounded-lg border border-green-200 flex items-start gap-4">
+                        <input type="text" id="vf4" maxlength="1" class="vf-input w-12 h-12 border-2 border-green-300 rounded-lg text-center font-bold text-lg uppercase flex-shrink-0" placeholder="?">
+                        <p class="text-slate-700 text-sm pt-2">En la diagonalización ortogonal, calcular \(Q^{-1}\) es tan costoso como en la diagonalización general porque requiere eliminación gaussiana.</p>
+                    </div>
+                    <div class="p-4 bg-green-50 rounded-lg border border-green-200 flex items-start gap-4">
+                        <input type="text" id="vf5" maxlength="1" class="vf-input w-12 h-12 border-2 border-green-300 rounded-lg text-center font-bold text-lg uppercase flex-shrink-0" placeholder="?">
+                        <p class="text-slate-700 text-sm pt-2">Toda matriz simétrica real tiene valores propios reales.</p>
+                    </div>
+                </div>
+                <button id="check-act4-btn" class="mt-4 bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors">Verificar respuestas</button>
+                <button id="reset-act4-btn" class="mt-4 ml-2 bg-gray-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors">Reiniciar</button>
+                <div id="act4-result" class="mt-3 font-medium"></div>
+            </div>
+        </div>
+
+        <!-- ══════════════ EVALUACIÓN ══════════════ -->
+        <div id="evaluacion" class="content-pane">
+            <h2 class="text-2xl sm:text-3xl font-bold text-green-800 mb-6">Evaluación. Selección múltiple</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <p class="text-slate-600 mb-6">Comprueba lo que has aprendido. Selecciona la respuesta correcta para cada pregunta.</p>
+                <div id="quiz-container"></div>
+                <div class="flex gap-4 mt-6">
+                    <button id="submit-quiz-btn" class="bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors">Finalizar evaluación</button>
+                    <button id="reset-quiz-btn" class="bg-gray-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors hidden">🔄 Reiniciar evaluación</button>
+                </div>
+                <div id="quiz-result" class="mt-4 text-lg font-bold"></div>
+            </div>
+        </div>
+
+        <!-- ══════════════ RECURSOS ══════════════ -->
+        <div id="recursos" class="content-pane">
+            <h2 class="text-2xl sm:text-3xl font-bold text-green-800 mb-6">Recursos para profundizar</h2>
+            <p class="text-slate-700 leading-relaxed mb-6">Para ampliar tu conocimiento sobre diagonalización y matrices simétricas:</p>
+            <ul class="space-y-4">
+                <li class="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-green-500 flex flex-col sm:flex-row sm:items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-green-700 text-lg">Video — Diagonalizar ortogonalmente una matriz</h3>
+                        <p class="text-sm text-slate-500 mb-2">Ejercicio resuelto paso a paso sobre diagonalización ortogonal</p>
+                        <a href="https://www.youtube.com/results?search_query=diagonalizar+ortogonalmente+una+matriz+ejercicio+resuelto" target="_blank" class="underline text-slate-700 hover:text-green-700 text-sm">Ir al recurso</a>
+                    </div>
+                    <div class="mt-4 sm:mt-0 sm:ml-6 flex-shrink-0 flex flex-col items-center">
+                        <img src="img/Qr1.png" alt="QR Video diagonalización ortogonal" class="w-16 h-16 object-contain border border-green-300 rounded" loading="lazy"
+                             onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'text-2xl\'>🎬</span>'">
+                        <span class="text-xs text-slate-400 mt-1">Escanea el QR</span>
+                    </div>
+                </li>
+                <li class="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-green-500 flex flex-col sm:flex-row sm:items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-green-700 text-lg">Symbolab — Calculadora de diagonalización</h3>
+                        <p class="text-sm text-slate-500 mb-2">Diagonaliza matrices y verifica valores y vectores propios paso a paso</p>
+                        <a href="https://www.symbolab.com/solver/matrix-diagonalization-calculator" target="_blank" class="underline text-slate-700 hover:text-green-700 text-sm">Ir al recurso</a>
+                    </div>
+                    <div class="mt-4 sm:mt-0 sm:ml-6 flex-shrink-0 flex flex-col items-center">
+                        <img src="img/Qr2.png" alt="QR Symbolab diagonalización" class="w-16 h-16 object-contain border border-green-300 rounded" loading="lazy"
+                             onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\'text-2xl\'>🧩</span>'">
+                        <span class="text-xs text-slate-400 mt-1">Escanea el QR</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ══════════════ BIBLIOGRAFÍA ══════════════ -->
+        <div id="bibliografia" class="content-pane">
+            <h2 class="text-2xl sm:text-3xl font-bold text-green-800 mb-6">Bibliografía</h2>
+            <div class="space-y-4">
+                <div class="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-green-500"><span class="block text-slate-700">Lay, D. C., Lay, S. R., y McDonald, J. J. (2021). <em>Álgebra lineal y sus aplicaciones</em> (6.ª ed.). Pearson.</span></div>
+                <div class="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-green-500"><span class="block text-slate-700">Poole, D. (2022). <em>Linear algebra: A modern introduction</em> (6th ed.). Cengage Learning.</span></div>
+                <div class="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-green-500"><span class="block text-slate-700">Kolman, B., Hill, D. R., y Busby, R. C. (2022). <em>Álgebra lineal</em> (10.ª ed.). Pearson.</span></div>
+                <div class="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-green-500"><span class="block text-slate-700">Strang, G. (2023). <em>Introduction to linear algebra</em> (6th ed.). Wellesley-Cambridge Press.</span></div>
+                <div class="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-green-500"><span class="block text-slate-700">Grossman, S. I., Flores Godoy, J., y Almeida Acosta, M. (2023). <em>Álgebra lineal</em> (10.ª ed.). McGraw-Hill Education.</span></div>
+                <div class="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-green-500"><span class="block text-slate-700">Anton, H., y Rorres, C. (2019). <em>Elementary linear algebra: Applications version</em> (12th ed.). Wiley.</span></div>
+                <div class="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-green-500"><span class="block text-slate-700">Hefferon, J. (2024). <em>Linear algebra</em>. Saint Michael's College.</span></div>
+                <div class="bg-white p-5 rounded-lg shadow-md hover:shadow-lg transition-shadow border-l-4 border-green-500"><span class="block text-slate-700">Leon, S. J. (2020). <em>Linear algebra with applications</em> (10th ed.). Pearson.</span></div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- FOOTER GLOBAL -->
+<div class="ml-0 md:ml-64 px-4 sm:px-6 md:px-10 py-6 border-t-2 border-slate-200 text-center bg-gray-50">
+    <p class="text-slate-600 font-medium">Creado por:</p>
+    <p class="text-green-800 font-bold text-lg">Centro de Innovación en TIC para el apoyo de la Docencia CINTIA</p>
+    <p class="text-slate-500 text-sm">Universidad de Córdoba</p>
+</div>
+
+<!-- Modal -->
+<div id="imageModal" class="image-modal">
+    <div class="modal-content">
+        <img id="modalImage" src="" alt="Imagen ampliada">
+        <button class="close-modal" id="closeModal">&times;</button>
+    </div>
+</div>
+
+<script src="js/speech.js"></script>
+<script src="js/modal.js"></script>
+<script src="js/quiz.js"></script>
+<script src="js/navigation.js"></script>
+<script>
+// ── PESTAÑAS PRINCIPALES ──
+function showMainTab(id){
+    document.querySelectorAll('.main-tab-content').forEach(el=>el.classList.add('hidden'));
+    document.querySelectorAll('.main-tab-btn').forEach(btn=>{
+        btn.classList.remove('bg-green-600','text-white','border-green-400');
+        btn.classList.add('bg-white','text-slate-500','border-green-200');
+    });
+    document.getElementById(id).classList.remove('hidden');
+    const btn=document.getElementById('main-tab-'+id.replace('tab-',''));
+    btn.classList.add('bg-green-600','text-white','border-green-400');
+    btn.classList.remove('bg-white','text-slate-500','border-green-200');
+    if(window.MathJax)MathJax.typesetPromise();
+}
+
+// ── SUB-PESTAÑAS ──
+function showSub(prefix,tab){
+    document.querySelectorAll('.sub-'+prefix).forEach(el=>el.classList.add('hidden'));
+    document.querySelectorAll('.sub-tab-'+prefix).forEach(btn=>{
+        btn.classList.remove('border-green-600','text-green-700','bg-green-50');
+        btn.classList.add('border-transparent','text-slate-500');
+    });
+    document.getElementById(prefix+'-'+tab).classList.remove('hidden');
+    const ab=document.getElementById(prefix+'-tab-'+tab);
+    ab.classList.add('border-green-600','text-green-700','bg-green-50');
+    ab.classList.remove('border-transparent','text-slate-500');
+    if(window.MathJax)MathJax.typesetPromise();
+}
+
+// ── ACORDEÓN ──
+function toggleAccordion(header){
+    const body=header.nextElementSibling;
+    const icon=header.querySelector('.accordion-icon');
+    const isOpen=!body.classList.contains('hidden');
+    if(isOpen){body.classList.add('hidden');icon.style.transform='rotate(0deg)';}
+    else{body.classList.remove('hidden');icon.style.transform='rotate(180deg)';}
+    if(window.MathJax)MathJax.typesetPromise();
+}
+
+// ── CALCULADORA DE DIAGONALIZACIÓN (2x2) ──
+function calcularDiagonalizacion(){
+    const a=+document.getElementById('diag-a').value, b=+document.getElementById('diag-b').value;
+    const c=+document.getElementById('diag-c').value, d=+document.getElementById('diag-d').value;
+    const res = document.getElementById('diag-resultado');
+    const tr = a+d, det = a*d - b*c;
+    const disc = tr*tr - 4*det;
+    if(disc < 0){
+        res.innerHTML = `
+            <p class="font-semibold text-slate-700">El discriminante del polinomio característico es negativo (${disc.toFixed(2)}).</p>
+            <p class="text-slate-600">Esta matriz NO tiene valores propios reales, por lo que no es diagonalizable sobre los números reales.</p>`;
+        res.classList.remove('hidden');
+        if(window.MathJax) MathJax.typesetPromise();
+        return;
+    }
+    const sqrtDisc = Math.sqrt(disc);
+    const l1 = (tr + sqrtDisc)/2, l2 = (tr - sqrtDisc)/2;
+    function eigenvector(lambda){
+        if(Math.abs(b) > 1e-9) return [b, lambda - a];
+        if(Math.abs(c) > 1e-9) return [lambda - d, c];
+        return [1, 0];
+    }
+    if(Math.abs(disc) < 1e-9){
+        const v = eigenvector(l1);
+        res.innerHTML = `
+            <p class="font-semibold text-green-800">Valor propio repetido: λ = ${l1.toFixed(2)} (multiplicidad algebraica 2)</p>
+            <p class="text-slate-600 mt-1">Para confirmar si es diagonalizable, verifica si existen 2 vectores propios linealmente independientes asociados a este valor propio. Si solo encuentras 1, la matriz NO es diagonalizable.</p>
+            <p class="mt-2">Un vector propio encontrado: v = (${v[0].toFixed(2)}, ${v[1].toFixed(2)})</p>`;
+    } else {
+        const v1 = eigenvector(l1), v2 = eigenvector(l2);
+        const detP = v1[0]*v2[1] - v1[1]*v2[0];
+        res.innerHTML = `
+            <p class="font-semibold text-green-800">Valores propios distintos: λ₁ = ${l1.toFixed(2)}, λ₂ = ${l2.toFixed(2)}</p>
+            <p class="text-green-700 font-semibold mt-1">✅ A es diagonalizable (valores propios distintos garantizan vectores propios L.I.)</p>
+            <p class="mt-2">v₁ = (${v1[0].toFixed(2)}, ${v1[1].toFixed(2)})  ·  v₂ = (${v2[0].toFixed(2)}, ${v2[1].toFixed(2)})</p>
+            <p class="mt-2 font-mono">P = [[${v1[0].toFixed(2)}, ${v2[0].toFixed(2)}], [${v1[1].toFixed(2)}, ${v2[1].toFixed(2)}]]</p>
+            <p class="font-mono">D = [[${l1.toFixed(2)}, 0], [0, ${l2.toFixed(2)}]]</p>
+            <p class="text-xs text-slate-500 mt-1">det(P) = ${detP.toFixed(2)} ${Math.abs(detP)>1e-9 ? '≠ 0 (P es invertible) ✓' : ''}</p>`;
+    }
+    res.classList.remove('hidden');
+    if(window.MathJax) MathJax.typesetPromise();
+}
+
+// ── ACTIVIDAD 1: VALORES PROPIOS + SÍ/NO ──
+document.getElementById('check-act1-btn')?.addEventListener('click', function(){
+    let correct = 0, total = 3;
+    const casos = [
+        { vpId:'a1-vp-a', diagName:'a1-diag-a', fbId:'fb-a1a', expected:['3','5'], diag:'si',
+          ok:'✅ Correcto. A es diagonal: sus valores propios son los elementos de la diagonal, λ₁=3 y λ₂=5. Como son distintos, siempre es diagonalizable.',
+          err:'❌ Incorrecto. A es diagonal: λ₁=3 y λ₂=5 (los elementos de la diagonal). Valores propios distintos → siempre diagonalizable.' },
+        { vpId:'a1-vp-b', diagName:'a1-diag-b', fbId:'fb-a1b', expected:['2'], diag:'no',
+          ok:'✅ Correcto. λ=2 con multiplicidad algebraica 2, pero solo hay 1 vector propio L.I. (multiplicidad geométrica = 1). No es diagonalizable.',
+          err:'❌ Incorrecto. λ=2 (multiplicidad algebraica 2), pero la multiplicidad geométrica es solo 1. Por eso NO es diagonalizable.' },
+        { vpId:'a1-vp-c', diagName:'a1-diag-c', fbId:'fb-a1c', expected:['-1','3'], diag:'si',
+          ok:'✅ Correcto. A es simétrica con λ₁=−1 y λ₂=3 (distintos). Siempre diagonalizable.',
+          err:'❌ Incorrecto. A es simétrica: det(A−λI)=(1−λ)²−4=0 → (λ−3)(λ+1)=0. Valores propios: λ₁=−1 y λ₂=3. Sí es diagonalizable.' },
+    ];
+    casos.forEach(({vpId, diagName, fbId, expected, diag, ok, err}) => {
+        const vpVal = (document.getElementById(vpId).value||'').replace(/\s/g,'');
+        const vpArr = vpVal.split(',').map(x=>x.trim()).filter(Boolean).sort((a,b)=>+a-+b);
+        const diagSel = document.querySelector(`input[name="${diagName}"]:checked`);
+        const fb = document.getElementById(fbId);
+        const vpOk = JSON.stringify(vpArr) === JSON.stringify(expected);
+        const diagOk = diagSel && diagSel.value === diag;
+        if(vpOk && diagOk){ correct++; fb.className='mt-2 p-2 rounded text-sm font-medium bg-green-100 text-green-800'; fb.textContent=ok; }
+        else { fb.className='mt-2 p-2 rounded text-sm font-medium bg-red-100 text-red-800'; fb.textContent=err; }
+        fb.classList.remove('hidden');
+    });
+    document.getElementById('act1-result').innerHTML=`<span class="${correct===total?'text-green-700':'text-yellow-700'} font-semibold">${correct} de ${total} correctas.</span>`;
+    if(window.MathJax)MathJax.typesetPromise();
+});
+
+// ── ACTIVIDAD 2: EMPAREJAMIENTO ──
+(function(){
+    const pairs = { 'l1':'v1', 'l3':'v3' };
+    let selected = null;
+    const matched = {};
+    document.querySelectorAll('.act2-vp').forEach(item => {
+        item.addEventListener('click', function(){
+            if(matched[this.dataset.vp]) return;
+            document.querySelectorAll('.act2-vp').forEach(c=>c.classList.remove('ring-2','ring-green-500'));
+            selected = this.dataset.vp;
+            this.classList.add('ring-2','ring-green-500');
+        });
+    });
+    document.querySelectorAll('.act2-vec').forEach(item => {
+        item.addEventListener('click', function(){
+            if(!selected) return;
+            const vecId = this.dataset.vec;
+            if(matched[selected]) return;
+            if(pairs[selected] === vecId){
+                matched[selected] = vecId;
+                document.querySelector(`.act2-vp[data-vp="${selected}"]`).classList.add('opacity-60');
+                document.querySelector(`.act2-vp[data-vp="${selected}"] .a2hint`).textContent='✅';
+                this.classList.add('bg-green-100','border-green-400');
+                const mc=this.querySelector('.a2matched'); mc.textContent='✅ Correcto'; mc.classList.remove('hidden');
+            } else {
+                this.classList.add('bg-red-100','border-red-400');
+                setTimeout(()=>this.classList.remove('bg-red-100','border-red-400'),700);
+            }
+            document.querySelectorAll('.act2-vp').forEach(c=>c.classList.remove('ring-2','ring-green-500'));
+            selected = null;
+            if(Object.keys(matched).length === Object.keys(pairs).length)
+                document.getElementById('act2-result').innerHTML='<span class="text-green-700 font-bold">🎉 ¡Emparejaste correctamente los valores propios con sus vectores ortonormales!</span>';
+        });
+    });
+    document.getElementById('act2-check-btn')?.addEventListener('click', function(){
+        const done=Object.keys(matched).length, total=Object.keys(pairs).length;
+        document.getElementById('act2-result').innerHTML=
+            `<span class="${done===total?'text-green-700':'text-yellow-700'} font-bold">${done===total?'🎉 ¡Perfecto!':'Has emparejado '+done+' de '+total+'. ¡Continúa!'}</span>`;
+    });
+    document.getElementById('act2-reset-btn')?.addEventListener('click', function(){
+        document.querySelectorAll('.act2-vp').forEach(c=>{c.classList.remove('opacity-60','ring-2','ring-green-500');c.querySelector('.a2hint').textContent='Clic';});
+        document.querySelectorAll('.act2-vec').forEach(d=>{d.classList.remove('bg-green-100','border-green-400');d.querySelector('.a2matched').classList.add('hidden');});
+        for(const k in matched) delete matched[k];
+        selected=null;
+        document.getElementById('act2-result').innerHTML='';
+    });
+})();
+
+// ── ACTIVIDAD 3: VERIFICADOR NUMÉRICO ──
+document.getElementById('check-act3-btn')?.addEventListener('click', function(){
+    let correct = 0, total = 3;
+    const l1 = +document.getElementById('a3-l1').value;
+    const l2 = +document.getElementById('a3-l2').value;
+    const fba = document.getElementById('fb-a3a');
+    if(l1===4096 && l2===64){
+        correct++; fba.className='mt-2 p-2 rounded text-sm font-medium bg-green-100 text-green-800';
+        fba.textContent='✅ Correcto. 4⁶ = 4096 y 2⁶ = 64. Por tanto D⁶ = diag(4096, 64) y A⁶ = Q·D⁶·Qᵀ.';
+    } else {
+        fba.className='mt-2 p-2 rounded text-sm font-medium bg-red-100 text-red-800';
+        fba.textContent='❌ Incorrecto. 4⁶ = 4096 y 2⁶ = 64. Recuerda: 4³ = 64, 4⁶ = (4³)² = 64² = 4096.';
+    }
+    fba.classList.remove('hidden');
+
+    const bVal = (document.getElementById('a3-b').value||'').replace(/\s/g,'');
+    const bArr = bVal.split(',').map(x=>x.trim()).filter(Boolean).sort((a,b)=>+a-+b);
+    const fbb = document.getElementById('fb-a3b');
+    if(JSON.stringify(bArr)===JSON.stringify(['-1','3','3'])){
+        correct++; fbb.className='mt-2 p-2 rounded text-sm font-medium bg-green-100 text-green-800';
+        fbb.textContent='✅ Correcto. El bloque [[1,2],[2,1]] da λ=3 y λ=−1; la posición [3,3] da λ=3. Valores: −1, 3, 3.';
+    } else {
+        fbb.className='mt-2 p-2 rounded text-sm font-medium bg-red-100 text-red-800';
+        fbb.textContent='❌ Incorrecto. A es simétrica de bloque: [[1,2],[2,1]] → λ=3, λ=−1. El tercer valor propio es 3. Valores: −1, 3, 3.';
+    }
+    fbb.classList.remove('hidden');
+
+    const cSel = document.querySelector('input[name="a3c"]:checked');
+    const fbc = document.getElementById('fb-a3c');
+    if(cSel && cSel.value==='c1'){
+        correct++; fbc.className='mt-2 p-2 rounded text-sm font-medium bg-green-100 text-green-800';
+        fbc.textContent='✅ Correcto. En PCA, el mayor valor propio (λ₂=5) indica la dirección de mayor varianza. Su vector propio es la primera componente principal.';
+    } else if(cSel){
+        fbc.className='mt-2 p-2 rounded text-sm font-medium bg-red-100 text-red-800';
+        fbc.textContent='❌ Incorrecto. El mayor valor propio (λ₂=5) y su vector propio apuntan en la dirección de mayor varianza en los datos.';
+    } else {
+        fbc.className='mt-2 p-2 rounded text-sm font-medium bg-yellow-100 text-yellow-800';
+        fbc.textContent='⚠️ Selecciona una opción.';
+    }
+    fbc.classList.remove('hidden');
+
+    document.getElementById('act3-result').innerHTML=`<span class="${correct===total?'text-green-700':'text-yellow-700'} font-semibold">${correct} de ${total} correctas.</span>`;
+    if(window.MathJax)MathJax.typesetPromise();
+});
+
+// ── ACTIVIDAD 4: VERDADERO O FALSO ──
+const vfAnswers4 = {vf1:'V', vf2:'F', vf3:'V', vf4:'F', vf5:'V'};
+document.getElementById('check-act4-btn')?.addEventListener('click', function(){
+    let score = 0;
+    const feedbacks = {
+        vf1:'V — Toda diagonal es simétrica: los elementos fuera de la diagonal son 0 = 0 (aᵢⱼ = aⱼᵢ ✓).',
+        vf2:'F — No toda simétrica es diagonal. Ejemplo: A=[[3,1],[1,5]] es simétrica pero no diagonal.',
+        vf3:'V — Se demuestra por inducción: Aⁿ = (PDP⁻¹)ⁿ = P·Dⁿ·P⁻¹.',
+        vf4:'F — En diagonalización ortogonal Q⁻¹ = Qᵀ, así que solo hay que transponer (O(n²)), no aplicar eliminación gaussiana (O(n³)).',
+        vf5:'V — Es una consecuencia directa del Teorema Espectral para matrices simétricas reales.',
+    };
+    Object.entries(vfAnswers4).forEach(([id, correct]) => {
+        const input = document.getElementById(id); if(!input) return;
+        const val = input.value.trim().toUpperCase();
+        input.classList.remove('border-green-500','border-red-500');
+        if(val === correct){ input.classList.add('border-green-500'); score++; }
+        else input.classList.add('border-red-500');
+    });
+    const total = Object.keys(vfAnswers4).length;
+    document.getElementById('act4-result').innerHTML=
+        `<span class="${score===total?'text-green-700':'text-yellow-700'} font-bold">${score} de ${total} correctas. ${score===total?'🎉 ¡Excelente!':'📚 Revisa tus respuestas.'}</span>
+        <div class="mt-3 space-y-1 text-sm text-slate-600">${Object.entries(feedbacks).map(([id,fb])=>`<p><strong>${id.replace('vf','')}.</strong> ${fb}</p>`).join('')}</div>`;
+});
+document.getElementById('reset-act4-btn')?.addEventListener('click', function(){
+    Object.keys(vfAnswers4).forEach(id=>{const i=document.getElementById(id);if(i){i.value='';i.classList.remove('border-green-500','border-red-500');}});
+    document.getElementById('act4-result').innerHTML='';
+});
+</script>
+</body>
+</html>
